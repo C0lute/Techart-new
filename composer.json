@@ -1,0 +1,12 @@
+{
+    "name": "aldergot/mysite",
+    "description": "its mysite",
+    "type": "project",
+    "require": {
+        "symfony/var-dumper": "^7.2",
+        "symfony/polyfill-mbstring": "^1.31",
+        "bacon/bacon-qr-code": "^3.0",
+        "symfony/polyfill-iconv": "^1.31",
+        "dasprid/enum": "^1.0"
+    }
+}
