@@ -1,6 +1,6 @@
     <?php include 'php/Header.php';
-    if ($query1) {
-        while ($row1 = $query1->fetch()) {
+    if ($querryMainNews) {
+        while ($row1 = $querryMainNews->fetch()) {
     ?>
             <div class="logo" style="background-image: url('/img/<?= $row1['image'] ?>');">
                 <div class="logo_text container">
@@ -16,8 +16,8 @@
         <h2 class="h2">Новости</h2>
         <div class="news">
             <?php
-            if ($query) {
-                while ($row = $query->fetch()) {
+            if ($querryOtherNews) {
+                while ($row = $querryOtherNews->fetch()) {
             ?>
                     <a class="news-item" href="/detal.php?id=<?= $row['id'] ?>">
                         <span class="news-date"><?= $row['date_fmt'] ?></span>

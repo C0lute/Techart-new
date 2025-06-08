@@ -1,8 +1,6 @@
 <?php
-include 'php/Bd.php';
-$args = "$_SERVER[REQUEST_URI]";
-//echo "<p style ='padding:0 0 0 20px;'>".$args."</p>";
-///echo "<br><p style ='padding:0 0 0 20px;'>".$_GET['id']."</p>";    
+include 'php/PDO.php';
+$args = "$_SERVER[REQUEST_URI]";  
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -28,8 +26,8 @@ $args = "$_SERVER[REQUEST_URI]";
             <div class="nav-menu">
             <?php
             include 'Menu.php';
-            if ($res) {
-                while ($row = $res->fetch()) {
+            if ($querryDetalPage) {
+                while ($row = $querryDetalPage->fetch()) {
                     if ($_GET['id'] == $row['id']) {
                         $menu += [$args => $row['title']];
                         break;

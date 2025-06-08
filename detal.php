@@ -1,9 +1,10 @@
     <?php include 'php/Header.php';
-    include 'php/Bd.php';
-    if ($res) {
-        while ($row = $res->fetch()) {
-
+    if ($querryDetalPage) {
+        $querryDetalPage->closeCursor();
+        $querryDetalPage->execute();
+        while ($row = $querryDetalPage->fetch()) {
             if ($_GET['id'] == $row['id']) {
+                
     ?>
 
                 <div class="container">
