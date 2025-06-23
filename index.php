@@ -1,6 +1,15 @@
     <?php include 'php/Header.php';
-    if ($querryMainNews) {
-        while ($row1 = $querryMainNews->fetch()) {
+    $NewsModel = new NewsModel();
+    $mainNews = $NewsModel->getMainNew();
+    $offset = (int) ($_GET['page'] ?? 1);
+    $rows = $NewsModel->getRows($offset, $NewsModel->limit);
+    $pages = $NewsModel->getCount();
+    
+    // echo $querryMainNews;
+    if ($mainNews) {
+        
+        while ($row1 = $mainNews->fetch()) {
+            
     ?>
             <div class="logo" style="background-image: url('/img/<?= $row1['image'] ?>');">
                 <div class="logo_text container">
@@ -16,8 +25,8 @@
         <h2 class="h2">Новости</h2>
         <div class="news">
             <?php
-            if ($querryOtherNews) {
-                while ($row = $querryOtherNews->fetch()) {
+            if ($rows) {
+                while ($row = $rows->fetch()) {
             ?>
                     <a class="news-item" href="/detal.php?id=<?= $row['id'] ?>">
                         <span class="news-date"><?= $row['date_fmt'] ?></span>

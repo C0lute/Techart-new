@@ -1,6 +1,8 @@
 <?php
-include 'php/PDO.php';
-$args = "$_SERVER[REQUEST_URI]";  
+include 'php/NewsModel.php';
+$args = "$_SERVER[REQUEST_URI]"; 
+$NewsModel = new NewsModel();
+$querryDetalPage = $NewsModel->getItem($_GET['id']); 
 ?>
 <!DOCTYPE html>
 <html lang="ru">
