@@ -1,5 +1,5 @@
 <?php
-include __DIR__.'/../../config/DataBase.php';
+include __DIR__.'/./DataBase.php';
 
 // namespace Vendor\Model;
 
