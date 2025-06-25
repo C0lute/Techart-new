@@ -1,7 +1,7 @@
 <?php
-include __DIR__.'/../Models/NewsModel.php';
+include __DIR__.'/../Controllers/NewsController.php';
 $args = "$_SERVER[REQUEST_URI]";
-$NewsModel = new NewsModel();
+$NewsController = new NewsController();
 ?>
 
 <!DOCTYPE html>
@@ -20,25 +20,16 @@ $NewsModel = new NewsModel();
             <img src="/img/logo.svg" alt="Логотип">
         </a>
         <?php
-        if (isset($_GET['id']) && $args == ("/detal.php?id=" . $_GET['id'])) {
-            $queryDetalPage = $NewsModel->getItem($_GET['id']);
+        if ($NewsController->getCheck() == true) {
         ?>
             <hr style="margin: 2% auto;">
             <div class="nav-menu">
             <?php
             include __DIR__.'/./Menu.php';
-            if ($queryDetalPage) {
-                while ($row = $queryDetalPage->fetch()) {
-                    if ($_GET['id'] == $row['id']) {
-                        $menu += [$args => $row['title']];
-                        break;
-                    }
-                }
-            }
             foreach ($menu as $item => $value) {
                 echo '<a class="atest"href="' . $item . '">' . $value . '</a>';
             }
         }
             ?>
-            </div>
+        </div>
     </header>
