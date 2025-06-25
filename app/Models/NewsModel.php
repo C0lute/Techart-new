@@ -29,7 +29,6 @@ class NewsModel
     public function getItem($id)
     {
         $queryDetalPage = $this->connection->query("select *, DATE_FORMAT(`date`, '%d.%m.%Y') date_fmt from `news` order by `date` desc"); //запрос на детальную страницу
-        $queryDetalPage = $queryDetalPage->fetch();
         return $queryDetalPage;
     }
 

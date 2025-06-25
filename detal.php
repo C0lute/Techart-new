@@ -1,19 +1,10 @@
 <?php
 include __DIR__.'/app/Views/Header.php';
 $querryDetalPage = $NewsController->getCheck();
-if ($NewsController->getCheck() == true) {
-    // $NewsController->getCheck()->closeCursor();
-    // $NewsController->getCheck()->execute();
-    while ($row = $querryDetalPage) {
-        var_dump($row['id']);
-        echo $_GET['id'];
-        if ($_GET['id'] == $row['id']) {
-            echo "da da da";
-            include __DIR__.'/app/Views/DetalPage.php';
-            break;
-        }
-        
 
+while ($row = $querryDetalPage->fetch()) {
+    if ($_GET['id'] == $row['id']) {
+         include __DIR__.'/app/Views/DetalPage.php';  
     }
 }
 ?>
