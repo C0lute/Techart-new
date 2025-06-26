@@ -2,7 +2,7 @@
 namespace app\Controllers;
 
 
-include __DIR__.'/../Models/NewsModel.php';
+include './app/Models/NewsModel.php';
 
 class NewsController
 {
@@ -42,18 +42,19 @@ class NewsController
         $rows = self::getOffset();
         $pages = self::getPages();
         include './app/Views/LastNews.php';
-        include __DIR__.'/../Views/News.php';
-        include __DIR__.'/../Views/Pagination.php';
-        include __DIR__.'/../Views/Footer.php';
+        include './app/Views/News.php';
+        include './app/Views/Pagination.php';
+        include './app/Views/Footer.php';
     }
 
     public function Detail($id)
     {
-        include './app/Views/Header.php';
+    
         $querryDetalPage = self::getCheckPage();
         while ($row = $querryDetalPage->fetch()) {
             if ($_GET['id'] == $row['id']) {
-                 include __DIR__.'/../Views/DetalPage.php';  
+                include './app/Views/Header.php';
+                include './app/Views/DetalPage.php';
             }
         }
         ?>
@@ -65,7 +66,7 @@ class NewsController
     {
         include './app/Views/Header.php';
         echo "<h1>404</h1>";
-        include __DIR__.'/../Views/Footer.php';
+        include './app/Views/Footer.php';
 
     }
 }

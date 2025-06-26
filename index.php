@@ -1,8 +1,9 @@
 <?php 
+use app\Controllers\NewsController;
 $uri = $_SERVER['REQUEST_URI'];
 preg_match('/\d+/', $uri, $matches);
-require_once __DIR__.'/app/Controllers/NewsController.php';
-$obj = new \app\Controllers\NewsController();
+spl_autoload_register();
+$obj = new NewsController();
 if ($matches == null) {
     if ($uri === '/index.php') {
         $obj->actionList();

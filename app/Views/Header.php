@@ -13,4 +13,7 @@
         <a href="/index.php">
             <img src="/img/logo.svg" alt="Логотип">
         </a>
+        <?php
+        include './app/Views/Menu.php';
+        ?>
     </header>

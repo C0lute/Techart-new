@@ -1,7 +1,7 @@
 <?php
 namespace app\Models;
 use PDO;
-include __DIR__.'/../Services/DataBase.php';
+include './app/Services/DataBase.php';
 
 class NewsModel
 {

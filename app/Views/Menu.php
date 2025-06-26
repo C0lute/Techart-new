@@ -3,17 +3,10 @@ if (self::getCheckPage()) {
 ?>
     <hr style="margin: 2% auto;">
     <div class="nav-menu">
-    <?php
-    $menu=["/"=>"Главная"];
-    while ($row = $querryDetalPage->fetch()) {
-        if ($_GET['id'] == $row['id']) {
-            $menu += [$row['title']];
-            break;
-        }
-    }
-    foreach ($menu as $item => $value) {
-        echo '<a class="atest"href="' . $item . '">' . $value . '</a>';
-    }
+        <a class="atest"href="/index.php">Главная</a>
+        <a class="atest" href="/detal.php?id=<?php echo $_GET['id']; ?>"><?php echo $row['title']; ?></a>
+        <?php
+        // var_dump($_GET);
 }
-    ?>
+        ?>
     </div>

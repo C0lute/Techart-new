@@ -12,7 +12,7 @@ class DataBase
     private $connection;
 
     public function __construct() {
-        $config = include __DIR__.'/../../config/config.php';
+        $config = include './config/config.php';
         $this->host = $config['DB_HOST'];
         $this->user = $config['DB_USERNAME'];
         $this->pass = $config['DB_PASSWORD'];
