@@ -1,6 +1,7 @@
 <?php
+namespace app\DataBase;
 
-
+use PDO;
 class DataBase
 {
     private $host;

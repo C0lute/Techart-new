@@ -1,5 +1,7 @@
 <?php
-include __DIR__.'/./DataBase.php';
+namespace app\Models;
+use PDO;
+include __DIR__.'/../Services/DataBase.php';
 
 class NewsModel
 {
@@ -7,7 +9,7 @@ class NewsModel
 
     public function __construct()
     {
-        $this->connection = (new Database)->connection();
+        $this->connection = (new \app\DataBase\Database)->connection();
     }
 
     public function getCount()

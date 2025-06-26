@@ -1,9 +1,3 @@
-<?php
-include __DIR__.'/../Controllers/NewsController.php';
-$args = "$_SERVER[REQUEST_URI]";
-$NewsController = new NewsController();
-?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <html>
@@ -16,20 +10,7 @@ $NewsController = new NewsController();
 </head>
 <body>
     <header class="header container">
-        <a href="/">
+        <a href="/index.php">
             <img src="/img/logo.svg" alt="Логотип">
         </a>
-        <?php
-        if ($NewsController->getCheck() == true) {
-        ?>
-            <hr style="margin: 2% auto;">
-            <div class="nav-menu">
-            <?php
-            include __DIR__.'/./Menu.php';
-            foreach ($menu as $item => $value) {
-                echo '<a class="atest"href="' . $item . '">' . $value . '</a>';
-            }
-        }
-            ?>
-        </div>
     </header>
