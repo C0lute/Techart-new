@@ -10,7 +10,7 @@
 </head>
 <body>
     <header class="header container">
-        <a href="/index.php">
+        <a href="/news/">
             <img src="/img/logo.svg" alt="Логотип">
         </a>
         <?php

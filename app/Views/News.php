@@ -5,7 +5,7 @@
         if ($rows) {
             while ($row = $rows->fetch()) {
         ?>
-        <a class="news-item" href="./detal.php?id=<?= $row['id'] ?>">
+        <a class="news-item" href="/news/<?= $row['id'] ?>/">
             <span class="news-date"><?= $row['date_fmt'] ?></span>
             <h3 class="news-title"><?= strip_tags($row['title']) ?></h3>
             <p class="news-content"><?= strip_tags($row['announce']) ?></p>

@@ -1,5 +1,5 @@
 <?php
-namespace app\Controllers;
+namespace App\Controllers;
 
 
 include './app/Models/NewsModel.php';
@@ -8,37 +8,40 @@ class NewsController
 {
     private $limit;
     private $offset;
-    public $NewsModel;
+    private $id;
+    public $newsModel;
+    public  $uri;
     public function __construct()
     {
-        $this->offset = (int) ($_GET['page'] ?? 1);
+        $this->uri = $_SERVER['REQUEST_URI'];
         $this->limit = 4;
-        $this->NewsModel = new \app\Models\NewsModel();
+        $this->newsModel = new \App\Models\NewsModel();
     }
 
     public function getPages()
     {
-        $pages = $this->NewsModel->getCount();
+        $pages = $this->newsModel->getCount();
         return $pages = ceil($pages / $this->limit);
     }
 
     public function getOffset()
     {
         $this->offset = ($this->offset - 1) * $this->limit;
-        return $this->NewsModel->getRows($this->offset, $this->limit);
+        return $this->newsModel->getRows($this->offset, $this->limit);
     }
 
     public function getCheckPage()
     {
-        if (isset($_GET['id'])) {
-            return $this->NewsModel->getItem(['id']);
+        if ($this->id) {
+            return $this->newsModel->getItem(['id']);
         }
     }
 
-    public function actionList()
+    public function actionList($page)
     {
+        $this->offset = (int) ($page ?? 1);
         include './app/Views/Header.php';
-        $lastNews = $this->NewsModel->getLastNews();
+        $lastNews = $this->newsModel->getLastNews();
         $rows = self::getOffset();
         $pages = self::getPages();
         include './app/Views/LastNews.php';
@@ -49,24 +52,14 @@ class NewsController
 
     public function Detail($id)
     {
-    
+        $this->id = $id;
         $querryDetalPage = self::getCheckPage();
         while ($row = $querryDetalPage->fetch()) {
-            if ($_GET['id'] == $row['id']) {
+            if ($id == $row['id']) {
                 include './app/Views/Header.php';
                 include './app/Views/DetalPage.php';
             }
         }
-        ?>
-        </div>
-        <?php include './app/Views/Footer.php';
-
-    }
-    public function Error404()
-    {
-        include './app/Views/Header.php';
-        echo "<h1>404</h1>";
         include './app/Views/Footer.php';
-
     }
 }

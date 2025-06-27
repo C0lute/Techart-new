@@ -5,7 +5,7 @@
             <span class="news-date"><?= $row['date_fmt'] ?></span>
             <h3 class="news-title"><?= $row['announce'] ?></h3>
             <p class="news-content"><?= strip_tags($row['content']) ?></p>
-            <a class="news-button" style="order:2" ; href="/index.php">
+            <a class="news-button" style="order:2" ; href="/news/">
                 <svg height='25px' width='32px' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' style="transform: rotate(180deg);">
                     <g fill='none' fill-rule='evenodd'>
                         <path

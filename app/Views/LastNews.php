@@ -1,4 +1,5 @@
-<?php if ($lastNews) {
+<?php 
+if ($lastNews) {
     while ($row1 = $lastNews->fetch()) {
 ?>
 <div class="logo" style="background-image: url('/img/<?= $row1['image'] ?>');">
