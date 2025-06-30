@@ -23,3 +23,4 @@
         </div>
         <div class="logo" style="background-image: url('/img/<?= $row['image'] ?>'); height: 767px; margin: 0; width:50%">
         </div>
+    </div>

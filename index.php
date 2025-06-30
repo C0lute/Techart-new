@@ -1,20 +1,19 @@
 <?php
+include './vendor/autoload.php';
+
+use App\Controllers\NewsController;
+
 $uri = $_SERVER['REQUEST_URI'];
-preg_match('{\/news\/(page-)?(\d+)?}', $uri, $matches);
 if (($uri === '/') || ($uri === '/news/')) {
-    include './app/Controllers/NewsController.php';
-    $obj = new app\Controllers\NewsController();
+    $obj = new NewsController();
     $obj->actionList(1);
-} elseif ($uri === '/news/page-'.$matches[2].'/') {
-    include './app/Controllers/NewsController.php';
-    $obj = new app\Controllers\NewsController();
-    $obj->actionList($matches[2]);
-} elseif ($uri === '/news/'.$matches[2].'/') {
-    include './app/Controllers/NewsController.php';
-    $obj = new app\Controllers\NewsController();
-    $obj->Detail($matches[2]);
+} elseif (preg_match('{^/news/page-(\d+)/$}', $uri, $matches)) {
+    $obj = new NewsController();
+    $obj->actionList($matches[1]);
+} elseif (preg_match('{^/news/(\d+)/$}', $uri, $matches)) {
+    $obj = new NewsController();
+    $obj->detail($matches[1]);
 } else {
-    include './app/Controllers/NewsController.php';
-    $obj = new app\Controllers\NewsController();
-    $obj->Error404();
+    $obj = new NewsController();
+    $obj->error404();
 }

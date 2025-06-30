@@ -1,28 +1,28 @@
 <?php
 namespace App\Controllers;
 
-
-include './app/Models/NewsModel.php';
+use App\Models\NewsModel;
 
 class NewsController
 {
     private $limit;
     private $offset;
     private $id;
-    private $countNews;
+    private $newsCount;
+    private $pages;
     public $newsModel;
     public  $uri;
     public function __construct()
     {
         $this->uri = $_SERVER['REQUEST_URI'];
         $this->limit = 4;
-        $this->newsModel = new \App\Models\NewsModel();
+        $this->newsModel = new NewsModel();
     }
 
     public function getPages()
     {
-        $this-> countNews = $this->newsModel->getCount();
-        return $pages = ceil($this->countNews / $this->limit);
+        $this->newsCount = $this->newsModel->getCount();
+        return $this->pages = ceil($this->newsCount / $this->limit);
     }
 
     public function getOffset()
@@ -31,7 +31,7 @@ class NewsController
         return $this->newsModel->getRows($this->offset, $this->limit);
     }
 
-    public function getCheckPage()
+    public function checkPage()
     {
         if ($this->id) {
             return $this->newsModel->getItem(['id']);
@@ -40,9 +40,9 @@ class NewsController
 
     public function actionList($page)
     {
-        $pages = self::getPages();
-        if (($page > $pages) || ($page <= 0)) {
-            self::Error404();
+        self::getPages();
+        if (($page > $this->pages) || ($page <= 0)) {
+            self::error404();
         } else {
             $this->offset = (int) ($page ?? 1);
             include './app/Views/Header.php';
@@ -55,14 +55,14 @@ class NewsController
         }
     }
 
-    public function Detail($id)
+    public function detail($id)
     {
-        $pages = self::getPages();
-        if (($id > $this->countNews) || ($id <= 0)) {
-            self::Error404();
+        self::getPages();
+        if (($id > $this->newsCount) || ($id <= 0)) {
+            self::error404();
         } else {
             $this->id = $id;
-            $querryDetalPage = self::getCheckPage();
+            $querryDetalPage = self::checkPage();
             while ($row = $querryDetalPage->fetch()) {
                 if ($id == $row['id']) {
                     include './app/Views/Header.php';
@@ -73,10 +73,10 @@ class NewsController
         }
     }
 
-    public function Error404()
+    public function error404()
     {
         include './app/Views/Header.php';
-        echo "<h1>404</h1>";
+        include './app/Views/Page404.php';
         include './app/Views/Footer.php';
     }
 }

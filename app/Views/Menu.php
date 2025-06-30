@@ -1,5 +1,5 @@
 <?php
-if (self::getCheckPage()) {
+if (self::checkPage()) {
 ?>
 <hr style="margin: 2% auto;">
 <div class="nav-menu">
