@@ -45,18 +45,24 @@ class NewsController
             self::error404();
         } else {
             $this->offset = (int) ($page ?? 1);
-            include './app/Views/Header.php';
             $lastNews = $this->newsModel->getLastNews();
             $rows = self::getOffset();
+            ob_start();
             include './app/Views/LastNews.php';
             include './app/Views/News.php';
             include './app/Views/Pagination.php';
-            include './app/Views/Footer.php';
+            $content = ob_get_contents();
+            ob_end_clean();
+            include './app/Views/Layout.php';
         }
     }
 
     public function detail($id)
     {
+        ob_start();
+        include './app/Views/DetalPage.php';
+        $content = ob_get_contents();
+        ob_end_clean();
         self::getPages();
         if (($id > $this->newsCount) || ($id <= 0)) {
             self::error404();
@@ -65,18 +71,18 @@ class NewsController
             $querryDetalPage = self::checkPage();
             while ($row = $querryDetalPage->fetch()) {
                 if ($id == $row['id']) {
-                    include './app/Views/Header.php';
-                    include './app/Views/DetalPage.php';
+                    include './app/Views/Layout.php';
                 }
             }
-            include './app/Views/Footer.php';
         }
     }
 
     public function error404()
     {
-        include './app/Views/Header.php';
+        ob_start();
         include './app/Views/Page404.php';
-        include './app/Views/Footer.php';
+        $content = ob_get_contents();
+        ob_end_clean();
+        include './app/Views/Layout.php';
     }
 }
