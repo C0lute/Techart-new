@@ -14,12 +14,12 @@
             <img src="/img/logo.svg" alt="Логотип">
         </a>
         <?php
-        if ($this->id) {
+        if ($id) {
         ?>
         <hr style="margin: 2% auto;">
         <div class="nav-menu">
             <a class="atest"href="/news/">Главная</a>
-            <a class="atest" href="/news/<?php echo $id; ?>/"><?php echo $this->row['title']; ?></a>
+            <a class="atest" href="/news/<?php echo $id; ?>/"><?php echo $row['title']; ?></a>
             <?php
         }
             ?>

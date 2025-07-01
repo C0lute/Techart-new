@@ -1,5 +1,4 @@
 <?php
-while ($row = $this->lastNews->fetch()) {
 ?>
 <div class="logo" style="background-image: url('/img/<?= $row['image'] ?>');">
     <div class="logo_text container">
@@ -8,19 +7,19 @@ while ($row = $this->lastNews->fetch()) {
     </div>
 </div>
 <?php
-}
 ?>
 <div class="container">
     <h2 class="h2">Новости</h2>
     <div class="news">
         <?php
-        while ($rows = $this->rows->fetch()) {
-        // ?>
-        <a class="news-item" href="/news/<?= $rows['id'] ?>/">
-            <span class="news-date"><?= $rows['date_fmt'] ?></span>
-            <h3 class="news-title"><?= strip_tags($rows['title']) ?></h3>
-            <p class="news-content"><?= strip_tags($rows['announce']) ?></p>
-            <button class="news-button" href="/<?= $rows['id'] ?>">ПОДРОБНЕЕ
+        if ($rows) {
+            while ($row = $rows->fetch()) {
+        ?>
+        <a class="news-item" href="/news/<?= $row['id'] ?>/">
+            <span class="news-date"><?= $row['date_fmt'] ?></span>
+            <h3 class="news-title"><?= strip_tags($row['title']) ?></h3>
+            <p class="news-content"><?= strip_tags($row['announce']) ?></p>
+            <button class="news-button" href="/<?= $row['id'] ?>">ПОДРОБНЕЕ
                 <svg height='25px' width='32px' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'>
                     <g fill='none' fill-rule='evenodd'>
                         <path
@@ -35,12 +34,13 @@ while ($row = $this->lastNews->fetch()) {
             </button>
         </a>
         <?php
+            }
         }
         ?>
     </div>
     <div class="btn-menu"> <!-- кнопки навигации -->
     <?php 
-    for ($p = 1; $p <= $this->pages; $p++) {
+    for ($p = 1; $p <= self::getPages(); $p++) {
     ?>
     <a href="/news/page-<?=$p?>/" class="btn-item"><?=$p?></a>
     <?php
