@@ -5,16 +5,20 @@ use App\Models\NewsModel;
 
 class NewsController
 {
-    private $limit;
-    private $offset;
-    private $id;
-    private $newsCount;
-    private $pages;
+    // private $limit;
+    // private $offset;
+    // private $id;
+    // private $newsCount;
+    // private $pages;
+    // private $lastNews;
+    // private $rows;
+    // private $row;
+    // private $tpl;
+
     public $newsModel;
     public  $uri;
     public function __construct()
     {
-        $this->uri = $_SERVER['REQUEST_URI'];
         $this->limit = 4;
         $this->newsModel = new NewsModel();
     }
@@ -25,17 +29,21 @@ class NewsController
         return $this->pages = ceil($this->newsCount / $this->limit);
     }
 
-    public function getOffset()
+    public function getRows()
     {
         $this->offset = ($this->offset - 1) * $this->limit;
         return $this->newsModel->getRows($this->offset, $this->limit);
     }
 
-    public function checkPage()
+    public function render($tpl, $context)
     {
-        if ($this->id) {
-            return $this->newsModel->getItem(['id']);
-        }
+        define('VIEWS', './app/Views/');
+        ob_start();
+        include VIEWS.$tpl.'.php';
+        $context = ob_get_contents();
+        ob_end_clean();
+        return $context;
+
     }
 
     public function actionList($page)
@@ -45,32 +53,28 @@ class NewsController
             self::error404();
         } else {
             $this->offset = (int) ($page ?? 1);
-            $lastNews = $this->newsModel->getLastNews();
-            $rows = self::getOffset();
-            ob_start();
-            include './app/Views/LastNews.php';
-            include './app/Views/News.php';
-            include './app/Views/Pagination.php';
-            $content = ob_get_contents();
-            ob_end_clean();
+            $this->lastNews = $this->newsModel->getLastNews();
+            $this->rows = self::getRows();
+            $this->tpl = 'NewsPage';
+            $context = [$this->rows, $this->lastNews, $this->offset];
+            $content = self::render($this->tpl, $context);
             include './app/Views/Layout.php';
         }
     }
 
     public function detail($id)
     {
-        ob_start();
-        include './app/Views/DetalPage.php';
-        $content = ob_get_contents();
-        ob_end_clean();
         self::getPages();
         if (($id > $this->newsCount) || ($id <= 0)) {
             self::error404();
         } else {
             $this->id = $id;
-            $querryDetalPage = self::checkPage();
-            while ($row = $querryDetalPage->fetch()) {
-                if ($id == $row['id']) {
+            $rows = $this->newsModel->getItem(['id']);
+            while ($this->row = $rows->fetch()) {
+                if ($id == $this->row['id']) {
+                    $this->tpl = 'DetalPage';
+                    $context = [$this->row];
+                    $content = self::render($this->tpl, $context);
                     include './app/Views/Layout.php';
                 }
             }
@@ -79,10 +83,9 @@ class NewsController
 
     public function error404()
     {
-        ob_start();
-        include './app/Views/Page404.php';
-        $content = ob_get_contents();
-        ob_end_clean();
+        $this->tpl = 'Page404';
+        $context = [];
+        $content = self::render($this->tpl, $context);
         include './app/Views/Layout.php';
     }
 }

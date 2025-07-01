@@ -1,10 +1,10 @@
 <div class="container">
-    <h2 class="h2"><?= $row['title'] ?></h2>
+    <h2 class="h2"><?= $this->row['title'] ?></h2>
     <div class="news" style="flex-wrap: nowrap; margin: 5% 0;">
         <div class="news-item">
-            <span class="news-date"><?= $row['date_fmt'] ?></span>
-            <h3 class="news-title"><?= $row['announce'] ?></h3>
-            <p class="news-content"><?= strip_tags($row['content']) ?></p>
+            <span class="news-date"><?= $this->row['date_fmt'] ?></span>
+            <h3 class="news-title"><?= $this->row['announce'] ?></h3>
+            <p class="news-content"><?= strip_tags($this->row['content']) ?></p>
             <a class="news-button" style="order:2" ; href="/news/">
                 <svg height='25px' width='32px' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' style="transform: rotate(180deg);">
                     <g fill='none' fill-rule='evenodd'>
@@ -21,6 +21,6 @@
                 <span>НАЗАД К НОВОСТЯМ</span>
             </a>
         </div>
-        <div class="logo" style="background-image: url('/img/<?= $row['image'] ?>'); height: 767px; margin: 0; width:50%">
+        <div class="logo" style="background-image: url('/img/<?= $this->row['image'] ?>'); height: 767px; margin: 0; width:50%">
         </div>
     </div>

@@ -14,8 +14,16 @@
             <img src="/img/logo.svg" alt="Логотип">
         </a>
         <?php
-        include './app/Views/Menu.php';
+        if ($this->id) {
         ?>
+        <hr style="margin: 2% auto;">
+        <div class="nav-menu">
+            <a class="atest"href="/news/">Главная</a>
+            <a class="atest" href="/news/<?php echo $id; ?>/"><?php echo $this->row['title']; ?></a>
+            <?php
+        }
+            ?>
+        </div>
     </header>
     <?= $content; ?>
     <footer class="footer-copyright">
