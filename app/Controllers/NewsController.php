@@ -5,50 +5,31 @@ use App\Models\NewsModel;
 
 class NewsController
 {
-    // private $limit;
-    // private $offset;
-    // private $id;
-    // private $newsCount;
-    // private $pages;
-    // private $lastNews;
-    // private $rows;
-    // private $row;
-    // private $tpl;
-
-    // public $newsModel;
-    // public  $uri;
-    // public function __construct()
-    // {
-    //     $this->limit = 4;
-    //     $this->newsModel = new NewsModel();
-    // }
-
     public function getPages()
     {
+        global $limit, $newsModel;
         $limit = 4;
-        $newsCount = (new NewsModel())->getCount();
-        return $pages = ceil($newsCount / $limit);
+        $newsModel = new NewsModel();
+        $newsCount = $newsModel->getCount();
+        return ceil($newsCount / $limit);
     }
 
     public function getRows($offset)
     {
-        $limit = 4;
+        global $limit, $newsModel;
         $offset = ($offset - 1) * $limit;
-        return (new NewsModel())->getRows($offset, $limit);
+        return $newsModel->getRows($offset, $limit);
     }
 
-    public function render($tpl, $context)
+    public function render($tpl, $context=[])
     {
-        extract($context, EXTR_PREFIX_SAME, "wddx");
-        $rows = $rows;
-        $row = $row;
+        extract($context);
         define('VIEWS', './app/Views/');
         ob_start();
         include VIEWS.$tpl.'.php';
-        $context = ob_get_contents();
+        $content = ob_get_contents();
         ob_end_clean();
-        return $context;
-
+        include VIEWS.'Layout.php';
     }
 
     public function actionList($page)
@@ -56,30 +37,24 @@ class NewsController
         if (($page > self::getPages()) || ($page <= 0)) {
             self::error404();
         } else {
-            $offset = (int) ($page ?? 1);
-            $lastNews = (new NewsModel())->getLastNews(); //запрос на последнюю новость
-            $rows = self::getRows($offset); //запрос на 4 новости с учетом оффсета и лимита
+            global $newsModel;
+            $rows = self::getRows($page); //запрос на 4 новости
+            $lastNews = $newsModel->getLastNews(); //запрос на последнюю новость
             $row = $lastNews->fetch();
-            $tpl = 'NewsPage';
-            $context = ['rows' => $rows, 'row' => $row];
-            $content = self::render($tpl, $context);
-            include './app/Views/Layout.php';
+            self::render('NewsPage', $context = ['rows' => $rows, 'row' => $row]);
         }
     }
 
     public function detail($id)
     {
-        self::getPages();
-        if (($id > (new NewsModel())->getCount()) || ($id <= 0)) {
+        $newsModel = new NewsModel();
+        if (($id > $newsModel->getCount()) || ($id <= 0)) {
             self::error404();
         } else {
-            $rows = (new NewsModel())->getItem(['id']);
+            $rows = $newsModel->getItem(['id']);
             while ($row = $rows->fetch()) {
                 if ($id == $row['id']) {
-                    $tpl = 'DetalPage';
-                    $context = ['row' => $row];
-                    $content = self::render($tpl, $context);
-                    include './app/Views/Layout.php';
+                    self::render('DetalPage', $context = ['row' => $row, 'id' => $id]);
                 }
             }
         }
@@ -87,9 +62,6 @@ class NewsController
 
     public function error404()
     {
-        $tpl = 'Page404';
-        $context = [];
-        $content = self::render($tpl, $context);
-        include './app/Views/Layout.php';
+        self::render('Page404');
     }
 }

@@ -27,7 +27,7 @@ class NewsModel
         $queryOtherNews->bindValue(1, $offset, PDO::PARAM_INT);
         $queryOtherNews->bindValue(2, $limit, PDO::PARAM_INT);
         $queryOtherNews->execute();
-        return $queryOtherNews; //запрос на 4 новости
+        return $queryOtherNews;
     }
 
     public function getItem($id)

@@ -14,7 +14,7 @@
             <img src="/img/logo.svg" alt="Логотип">
         </a>
         <?php
-        if ($id) {
+        if (isset($id)) {
         ?>
         <hr style="margin: 2% auto;">
         <div class="nav-menu">
